@@ -4,6 +4,16 @@
       <router-link to="/">Home</router-link>
       |
       <router-link to="/about">About</router-link>
+      |
+      <router-link v-if="!isLoggedIn()" to="/signup">Signup</router-link>
+      |
+      <router-link v-if="!isLoggedIn()" to="/login">Login</router-link>
+      |
+      <router-link v-if="isLoggedIn()" to="/logout">Logout</router-link>
+      |
+      <router-link v-if="isLoggedIn()" to="/posts/new">Create Post</router-link>
+      |
+      <router-link v-if="isLoggedIn()" :to="`/users/${getUser()}`">Your Account</router-link>
     </div>
     <router-view />
   </div>
@@ -31,3 +41,19 @@
   color: #42b983;
 }
 </style>
+<script>
+export default {
+  methods: {
+    getUser: function() {
+      return localStorage.getItem("user_id");
+    },
+    isLoggedIn: function() {
+      if (localStorage.getItem("jwt")) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
+};
+</script>

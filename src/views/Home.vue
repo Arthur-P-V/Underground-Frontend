@@ -1,18 +1,40 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <h1>Underground</h1>
+    <div v-for="post in posts" :key="post.id">
+      <router-link :to="`/posts/${post.id}`">
+        <h1>{{ post.title }}</h1>
+        <router-link :to="`/users/${post.user.id}`">
+          <h3>{{ post.user.name }}</h3>
+        </router-link>
+        <h4>{{ post.score }}</h4>
+        <p>{{ post.content }}</p>
+      </router-link>
+    </div>
   </div>
 </template>
 
+<style></style>
+
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import axios from "axios";
 
 export default {
-  name: "Home",
-  components: {
-    HelloWorld,
+  data: function() {
+    return {
+      posts: [],
+    };
+  },
+  created: function() {
+    this.indexPosts();
+  },
+  methods: {
+    indexPosts: function() {
+      axios.get("/api/posts").then(response => {
+        console.log("Success", response.data);
+        this.posts = response.data;
+      });
+    },
   },
 };
 </script>

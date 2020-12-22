@@ -1,0 +1,95 @@
+<template>
+  <div>
+    <h1>{{ post.title }}</h1>
+    <router-link :to="`/users/${post.user.id}`">
+      <h3>{{ post.user.name }}</h3>
+    </router-link>
+    <p>{{ post.score }}</p>
+    <p>{{ post.content }}</p>
+    <div>
+      <button v-if="liked == false" v-on:click="postLike()">Like</button>
+      <button v-else v-on:click="postUnlike()">Unlike</button>
+    </div>
+    <router-link to="/">Back</router-link>
+    <div>
+      <textarea name="Comment" cols="40" rows="8" v-model="newComment"></textarea>
+      <button v-on:click="createComment">Post</button>
+    </div>
+    <div v-for="comment in comments" :key="comment.id">
+      <h5>{{ comment.user }}</h5>
+      <h6>{{ comment.score }}</h6>
+      <p>{{ comment.comment }}</p>
+      <button v-if="comment.liked" v-on:click="commentLike(comment)">Like</button>
+      <button></button>
+    </div>
+  </div>
+</template>
+<script>
+import axios from "axios";
+export default {
+  data: function() {
+    return {
+      post: {},
+      liked: "",
+      vote_id: "",
+      comments: [],
+      newComment: "",
+    };
+  },
+  created: function() {
+    axios.get("/api/posts/" + this.$route.params.id).then(response => {
+      console.log("success", response.data);
+      this.post = response.data;
+      this.vote_id = response.data.vote_id;
+      this.liked = response.data.liked;
+    });
+    axios.get("/api/comments/" + this.$route.params.id).then(response => {
+      console.log("success", response.data);
+      this.comments = response.data;
+    });
+  },
+  methods: {
+    postLike: function() {
+      var params = {
+        post_id: this.post.id,
+        value: 1,
+      };
+      axios.post("/api/votes", params).then(response => {
+        console.log("success", response.data);
+        this.vote_id = response.data.id;
+        this.liked = true;
+        this.post.score += 1;
+      });
+    },
+    postUnlike: function() {
+      axios.delete("/api/votes/" + this.vote_id).then(response => {
+        console.log("vote destroyed", response.data);
+        this.vote_id = false;
+        this.liked = false;
+        this.post.score -= 1;
+      });
+    },
+    createComment: function() {
+      var params = {
+        post_id: this.$route.params.id,
+        content: this.newComment,
+      };
+      axios.post("/api/comments", params).then(response => {
+        console.log("Success", response.data);
+        this.comments.push(response.data);
+      });
+    },
+    commentLike: function(comment) {
+      var params = {
+        comment_id: comment.id,
+        value: 1,
+      };
+      axios.post("/api/votes", params).then(response => {
+        console.log("success", response.data);
+        this.vote_id = response.data.id;
+        this.liked = true;
+        this.post.score += 1;
+      });
+  },
+};
+</script>
