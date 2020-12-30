@@ -1,11 +1,13 @@
 <template>
   <div>
     <h1>{{ post.title }}</h1>
+    <h3>{{ post.category }}</h3>
     <router-link :to="`/users/${post.user.id}`">
       <h3>{{ post.user.name }}</h3>
     </router-link>
     <p>{{ post.score }}</p>
     <p>{{ post.content }}</p>
+    <button v-if="user.admin" v-on:click="destroyPost()">Delete</button>
     <div>
       <button v-if="liked == false" v-on:click="postLike()">Like</button>
       <button v-else v-on:click="postUnlike()">Unlike</button>
@@ -17,10 +19,8 @@
     </div>
     <div v-for="comment in comments" :key="comment.id">
       <h5>{{ comment.user }}</h5>
-      <h6>{{ comment.score }}</h6>
       <p>{{ comment.comment }}</p>
-      <button v-if="comment.liked" v-on:click="commentLike(comment)">Like</button>
-      <button></button>
+      <button v-if="user.admin" v-on:click="destroyComment(comment)">Delete</button>
     </div>
   </div>
 </template>
@@ -30,6 +30,7 @@ export default {
   data: function() {
     return {
       post: {},
+      user: {},
       liked: "",
       vote_id: "",
       comments: [],
@@ -46,6 +47,10 @@ export default {
     axios.get("/api/comments/" + this.$route.params.id).then(response => {
       console.log("success", response.data);
       this.comments = response.data;
+    });
+    axios.get("/api/users/" + this.$parent.getUser()).then(response => {
+      console.log("success", response.data);
+      this.user = response.data;
     });
   },
   methods: {
@@ -79,17 +84,19 @@ export default {
         this.comments.push(response.data);
       });
     },
-    commentLike: function(comment) {
-      var params = {
-        comment_id: comment.id,
-        value: 1,
-      };
-      axios.post("/api/votes", params).then(response => {
+    destroyPost: function() {
+      axios.delete("/api/posts/" + this.$route.params.id).then(response => {
         console.log("success", response.data);
-        this.vote_id = response.data.id;
-        this.liked = true;
-        this.post.score += 1;
+        this.$router.push("/");
       });
+    },
+    destroyComment: function(comment) {
+      axios.delete("/api/comments/" + comment.id).then(response => {
+        var index = this.comments.indexOf(comment);
+        console.log("success", response.data);
+        this.comments.splice(index, 1);
+      });
+    },
   },
 };
 </script>
