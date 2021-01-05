@@ -14,6 +14,10 @@
       <label>Content  </label>
       <input type="text" class="form-control" v-model="Content" />
     </div>
+    <div class="form-group">
+      <label>Image Url  </label>
+      <input type="text" class="form-control" v-model="imageUrl" />
+    </div>
     <button v-on:click="createPost">Create</button>
   </div>
 </template>
@@ -29,6 +33,7 @@ export default {
       selected: "",
       Title: "",
       Content: "",
+      imageUrl: "",
     };
   },
   created: function() {},
@@ -37,6 +42,7 @@ export default {
       var params = {
         title: this.Title,
         content: this.Content,
+        image_url: this.imageUrl,
         category_id: this.selected,
       };
       // eslint-disable-next-line no-unused-vars

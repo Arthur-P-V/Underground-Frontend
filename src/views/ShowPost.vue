@@ -5,13 +5,34 @@
     <router-link :to="`/users/${post.user.id}`">
       <h3>{{ post.user.name }}</h3>
     </router-link>
+    <img v-bind:src="post.image_url" v-bind:alt="post.title" />
     <p>{{ post.score }}</p>
     <p>{{ post.content }}</p>
-    <button v-if="user.admin" v-on:click="destroyPost()">Delete</button>
+    <button v-on:click="destroyModal">Delete</button>
+    <dialog id="destroy-post">
+      <form method="dialog">
+        <h3>Are you sure?</h3>
+        <button v-on:click="destroyPost">Delete</button>
+        <button>Close</button>
+      </form>
+    </dialog>
     <div>
       <button v-if="liked == false" v-on:click="postLike()">Like</button>
       <button v-else v-on:click="postUnlike()">Unlike</button>
     </div>
+    <button v-on:click="showEdit">Edit</button>
+    <dialog id="edit-post">
+      <form method="dialog">
+        <h3>Title:</h3>
+        <input type="text" v-model="post.title" />
+        <h3>Content:</h3>
+        <input type="text" v-model="post.content" />
+        <h3>Image Url:</h3>
+        <input type="text" v-model="post.image_url" />
+        <button v-on:click="editPost">Submit</button>
+        <button>close</button>
+      </form>
+    </dialog>
     <router-link to="/">Back</router-link>
     <div>
       <textarea name="Comment" cols="40" rows="8" v-model="newComment"></textarea>
@@ -35,6 +56,7 @@ export default {
       vote_id: "",
       comments: [],
       newComment: "",
+      owner: "",
     };
   },
   created: function() {
@@ -53,6 +75,15 @@ export default {
       this.user = response.data;
     });
   },
+  // mounted: function() {
+  //   if (this.user.id == this.$parent.getUser) {
+  //     this.owner = true;
+  //     console.log("owner");
+  //   } else {
+  //     this.owner = false;
+  //     console.log("not owner");
+  //   }
+  // },
   methods: {
     postLike: function() {
       var params = {
@@ -97,6 +128,22 @@ export default {
         this.comments.splice(index, 1);
       });
     },
+    showEdit: function() {
+      document.querySelector("#edit-post").showModal();
+    },
+    editPost: function() {
+      var params = {
+        title: this.post.title,
+        content: this.post.content,
+        image_url: this.post.image_url,
+      };
+      axios.patch("/api/posts/" + this.$route.params.id, params).then(response => {
+        console.log("success", response.data);
+      });
+    },
+    destroyModal: function() {
+      document.querySelector("#destroy-post").showModal();
+    }
   },
 };
 </script>
