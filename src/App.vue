@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <h1>Underground</h1>
     <div class="header-bottom">
       <div class="container-fluid">
         <button
@@ -41,7 +40,7 @@
               </a>
             </li>
             <li>
-              <a v-if="isLoggedIn()" v-bind:to="`/users/${this.getUser}`" role="button" aria-expanded="false">
+              <a v-if="isLoggedIn()" v-bind:href="`/users/${this.getUser()}`" role="button" aria-expanded="false">
                 Your Account
               </a>
             </li>
@@ -53,6 +52,19 @@
           </ul>
         </div>
         <!-- /.navbar-collapse -->
+      </div>
+      <!-- End .container-fluid -->
+    </div>
+    <div
+      class="page-header largest parallax custom text-center"
+      style="background-image:url(https://images.unsplash.com/photo-1600697230088-4992c83b2804?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80)"
+      data-0="background-position:50% 50%;"
+      data-top-bottom="background-position:50% 100%"
+    >
+      <div class="container-fluid">
+        <h1 data-300-top="opacity:1;transform:scale(1);" data-top-bottom="opacity:0.4;transform:scale(1.9);">
+          Underground
+        </h1>
       </div>
       <!-- End .container-fluid -->
     </div>

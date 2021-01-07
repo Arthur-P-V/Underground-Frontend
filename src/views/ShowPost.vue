@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ post.title }}</h1>
+    <!-- <h1>{{ post.title }}</h1>
     <h3>{{ post.category }}</h3>
     <router-link :to="`/users/${post.user.id}`">
       <h3>{{ post.user.name }}</h3>
@@ -42,9 +42,110 @@
       <h5>{{ comment.user }}</h5>
       <p>{{ comment.comment }}</p>
       <button v-if="user.admin" v-on:click="destroyComment(comment)">Delete</button>
+    </div> -->
+    <div class="main">
+      <div class="container-fluid">
+        <article class="entry">
+          <div class="entry-media">
+            <figure>
+              <img v-bind:src="post.image_url" alt="entry image" />
+            </figure>
+          </div>
+          <!-- End .enty-media -->
+
+          <div class="entry-content-container">
+            <!-- End .entry-meta -->
+
+            <div class="entry-content-wrapper">
+              <h2 class="entry-title">
+                {{ post.title }}
+              </h2>
+              <div class="entry-content">
+                <p>{{ post.content }}</p>
+              </div>
+              <!-- End .entry-content -->
+            </div>
+            <!-- End .entry-content-wrapper -->
+          </div>
+          <!-- End .entry-content-container -->
+          <div class="author-container">
+            <div class="entry-author">
+              <figure>
+                <img v-bind:src="post.user.profile_pic" alt="Author" class="img-circle" />
+              </figure>
+              <div class="author-content">
+                <h4>
+                  <a href="#">{{ post.user.name }}</a>
+                </h4>
+                <p>
+                  {{ post.user.bio }}
+                </p>
+                <!-- End .social-icons -->
+              </div>
+              <!-- end .author-content -->
+            </div>
+            <!-- End .entry-author -->
+          </div>
+        </article>
+
+        <div class="comments">
+          <h3 class="title custom mb25">Comments</h3>
+          <ul class="comments-list media-list">
+            <li class="media" v-for="comment in comments" :key="comment.id">
+              <div class="comment">
+                <div class="media-left">
+                  <img class="media-object img-circle" v-bind:src="comment.user.profile_pic" alt="User name" />
+                </div>
+                <!-- End .media-left -->
+                <div class="media-body">
+                  <h4 class="media-heading">
+                    {{ comment.user.name }}
+                  </h4>
+
+                  <p>
+                    {{ comment.comment }}
+                  </p>
+                </div>
+                <!-- End .media-body -->
+              </div>
+              <!-- End .comment -->
+            </li>
+          </ul>
+        </div>
+        <!-- End .comments -->
+
+        <div id="respond" class="comment-respond">
+          <h3 class="title custom mb25">Send a Reply</h3>
+          <form action="#" method="post">
+            <!-- End .row -->
+            <textarea
+              class="form-control"
+              rows="6"
+              placeholder="Add Your Comment"
+              v-model="newComment"
+              required
+            ></textarea>
+            <a class="btn btn-custom" v-on:click="createComment">Comment</a>
+          </form>
+        </div>
+        <!-- End #respond -->
+      </div>
+      <!-- End .container-fluid -->
     </div>
   </div>
 </template>
+
+<style>
+.author-container {
+  padding: 1em;
+}
+.entry-author {
+  padding: 0.5em;
+  background-color: white;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+</style>
+
 <script>
 import axios from "axios";
 export default {
@@ -143,7 +244,7 @@ export default {
     },
     destroyModal: function() {
       document.querySelector("#destroy-post").showModal();
-    }
+    },
   },
 };
 </script>

@@ -5,18 +5,36 @@
       <ul>
         <li class="text-danger" v-for="error in errors" :key="error.id">{{ error }}</li>
       </ul>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label>Email:</label>
         <input type="email" class="form-control" v-model="email" />
+      </div> -->
+      <div class="input-group input-lg">
+        <span class="input-group-addon">Email*</span>
+        <input type="email" required="" class="form-control" placeholder="Your Email" v-model="email" />
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label>Password:</label>
         <input type="password" class="form-control" v-model="password" />
+      </div> -->
+      <div class="input-group input-lg">
+        <span class="input-group-addon">Password*</span>
+        <input type="password" required="" class="form-control" placeholder="Enter Password" v-model="password" />
       </div>
-      <input type="submit" class="btn btn-primary" value="Submit" />
+      <input type="submit" class="btn btn-custom signup" value="Submit" />
     </form>
   </div>
 </template>
+
+<style>
+.login {
+  width: 800px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 1em;
+}
+</style>
 
 <script>
 import axios from "axios";
