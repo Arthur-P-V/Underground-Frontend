@@ -230,10 +230,9 @@
                     <input type="text" class="form-control" placeholder="Bio" v-model="user.bio" />
                   </div>
                   <!-- End .form-group -->
-                  <!-- <div class="form-group">
+                  <div class="form-group">
                     <label for="password2" class="form-label">
                       Banner
-                      <span class="required">*</span>
                     </label>
                     <input
                       type="text"
@@ -243,7 +242,7 @@
                       placeholder="Banner Image URL"
                       v-model="user.banner"
                     />
-                  </div> -->
+                  </div>
                   <!-- End .form-group -->
                 </div>
                 <!-- End .modal-body -->

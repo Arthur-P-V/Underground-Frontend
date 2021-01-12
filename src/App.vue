@@ -56,8 +56,23 @@
       <!-- End .container-fluid -->
     </div>
     <div
+      v-if="!isLoggedIn()"
       class="page-header largest parallax custom text-center"
       style="background-image:url(https://images.unsplash.com/photo-1600697230088-4992c83b2804?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80)"
+      data-0="background-position:50% 50%;"
+      data-top-bottom="background-position:50% 100%"
+    >
+      <div class="container-fluid">
+        <h1 data-300-top="opacity:1;transform:scale(1);" data-top-bottom="opacity:0.4;transform:scale(1.9);">
+          Underground
+        </h1>
+      </div>
+      <!-- End .container-fluid -->
+    </div>
+    <div
+      v-else
+      class="page-header largest parallax custom text-center"
+      v-bind:style="`background-image:url(${user.banner})`"
       data-0="background-position:50% 50%;"
       data-top-bottom="background-position:50% 100%"
     >
@@ -90,15 +105,13 @@
         <div class="container-fluid">
           <div class="footer-left">
             <div class="social-icons">
-              <label>Find Us:</label>
-              <a href="#" class="social-icon" title="Facebook"><i class="fa fa-facebook"></i></a>
-              <a href="#" class="social-icon" title="Twitter"><i class="fa fa-twitter"></i></a>
-              <a href="#" class="social-icon" title="Github"><i class="fa fa-github"></i></a>
-              <a href="#" class="social-icon" title="Linkedin"><i class="fa fa-linkedin"></i></a>
-              <a href="#" class="social-icon" title="Tumblr"><i class="fa fa-tumblr"></i></a>
-              <a href="#" class="social-icon" title="Flickr"><i class="fa fa-flickr"></i></a>
-              <a href="#" class="social-icon" title="Snapchat"><i class="fa fa-snapchat"></i></a>
-              <a href="#" class="social-icon" title="Vine"><i class="fa fa-vine"></i></a>
+              <label>Find Me:</label>
+              <a href="https://github.com/Arthur-P-V" class="social-icon" title="Github">
+                <i class="fa fa-github"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/arthurpv/" class="social-icon" title="Linkedin">
+                <i class="fa fa-linkedin"></i>
+              </a>
             </div>
             <!-- End .social-icons -->
           </div>
@@ -106,12 +119,7 @@
 
           <div class="footer-right">
             <ul class="footer-menu">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#">Services</a></li>
-              <li><a href="#">Features</a></li>
-              <li><a href="#">FaQS</a></li>
-              <li><a href="#">Support</a></li>
-              <li><a href="#">Contact Us</a></li>
+              <li><a href="/">Home</a></li>
             </ul>
             <p class="copyright">
               <strong>Bold</strong>
@@ -131,8 +139,24 @@
 </template>
 
 <style></style>
+
 <script>
+import axios from "axios";
+
 export default {
+  data: function() {
+    return {
+      user: {},
+    };
+  },
+  created: function() {
+    if (this.isLoggedIn()) {
+      axios.get("/api/users/" + this.getUser()).then(response => {
+        this.user = response.data;
+        console.log("success", response.data);
+      });
+    }
+  },
   methods: {
     getUser: function() {
       return localStorage.getItem("user_id");

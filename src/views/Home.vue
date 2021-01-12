@@ -4,10 +4,10 @@
     <div class="main">
       <div class="container-fluid">
         <ul id="portfolio-filter">
-          <li class="active"><a v-on:click="indexCategory">All</a></li>
-          <li><a v-on:click="gamesCategory">Games</a></li>
-          <li><a v-on:click="moviesCategory">Movies</a></li>
-          <li><a v-on:click="musicCategory">Music</a></li>
+          <li class="active"><a href="#" v-on:click="indexCategory">All</a></li>
+          <li><a href="#" v-on:click="gamesCategory">Games</a></li>
+          <li><a href="#" v-on:click="moviesCategory">Movies</a></li>
+          <li><a href="#" v-on:click="musicCategory">Music</a></li>
         </ul>
       </div>
       <!-- <button v-on:click="indexCategory">All</button>
