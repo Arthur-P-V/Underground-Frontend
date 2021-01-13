@@ -282,7 +282,7 @@
 
     <div class="container-fluid">
       <div class="portfolio-row">
-        <div id="portfolio-item-container" class="popup-gallery max-col-4" data-layoutmode="fitRows">
+        <div id="portfolio-item-container" class="max-col-4" data-layoutmode="fitRows">
           <div
             v-for="post in filterBy(user.posts, `${category}`, 'category_id')"
             :key="post.id"

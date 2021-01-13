@@ -142,6 +142,8 @@
 
 <script>
 import axios from "axios";
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 
 export default {
   data: function() {
@@ -149,7 +151,7 @@ export default {
       user: {},
     };
   },
-  created: function() {
+  mounted: function() {
     if (this.isLoggedIn()) {
       axios.get("/api/users/" + this.getUser()).then(response => {
         this.user = response.data;

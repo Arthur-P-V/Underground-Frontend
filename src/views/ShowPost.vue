@@ -74,6 +74,8 @@
                 <div v-if="editing">
                   <label class="input-desc">Post Content</label>
                   <textarea class="form-control" rows="4" v-model="post.content"></textarea>
+                  <label class="input-desc">Post Image URL</label>
+                  <input class="form-control input-lg" type="text" v-model="post.image_url" />
                 </div>
                 <p v-else>{{ post.content }}</p>
               </div>
