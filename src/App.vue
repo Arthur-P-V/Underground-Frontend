@@ -67,12 +67,11 @@
           Underground
         </h1>
       </div>
-      <!-- End .container-fluid -->
     </div>
     <div
       v-else
       class="page-header largest parallax custom text-center"
-      v-bind:style="`background-image:url(${user.banner})`"
+      v-bind:style="{ backgroundImage: 'url(' + user.banner + ')' }"
       data-0="background-position:50% 50%;"
       data-top-bottom="background-position:50% 100%"
     >
@@ -81,8 +80,13 @@
           Underground
         </h1>
       </div>
-      <!-- End .container-fluid -->
     </div>
+    <!-- <img
+      v-if="!isLoggedIn()"
+      src="https://images.unsplash.com/photo-1600697230088-4992c83b2804?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+      alt=""
+    />
+    <img v-else :src="user.banner" alt="" /> -->
     <!-- End .header-bottom -->
     <!-- <div id="nav">
       <router-link to="/">Home</router-link>
@@ -160,15 +164,20 @@ export default {
     }
   },
   methods: {
-    getUser: function() {
-      return localStorage.getItem("user_id");
-    },
     isLoggedIn: function() {
       if (localStorage.getItem("jwt")) {
+        // axios.get("/api/users/" + this.getUser()).then(response => {
+        //   this.user = response.data;
+        //   console.log("success", response.data);
+        // });
         return true;
       } else {
+        console.log("not logged in");
         return false;
       }
+    },
+    getUser: function() {
+      return localStorage.getItem("user_id");
     },
   },
 };
